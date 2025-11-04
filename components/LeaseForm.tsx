@@ -8,6 +8,8 @@ export default function LeaseForm() {
     ownerName: 'Nathan Wolff',
     ownerPhone: '(917) 407-8610',
     ownerEmail: 'nathan.g.wolff@gmail.com',
+    streetAddress: '12821 NW Springville Rd',
+    unitName: 'South Room',
     state: 'Oregon',
     zipCode: '97229',
     city: 'Portland',
@@ -24,15 +26,97 @@ export default function LeaseForm() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Phone number mask function - formats as (XXX) XXX-XXXX
+  const formatPhoneNumber = (value: string): string => {
+    const phoneNumber = value.replace(/\D/g, '');
+    if (phoneNumber.length === 0) return '';
+    if (phoneNumber.length <= 3) return `(${phoneNumber}`;
+    if (phoneNumber.length <= 6) return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`;
+  };
+
+  // Validate phone number format
+  const validatePhoneNumber = (phone: string): boolean => {
+    const phoneNumber = phone.replace(/\D/g, '');
+    return phoneNumber.length === 10;
+  };
+
+  // Validate email address
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // Validate street address - must contain at least a number and street name
+  const validateStreetAddress = (address: string): boolean => {
+    if (!address || address.trim().length === 0) return false;
+    // Basic validation: must contain at least one digit and some letters
+    const hasNumber = /\d/.test(address);
+    const hasLetters = /[a-zA-Z]/.test(address);
+    return hasNumber && hasLetters && address.trim().length >= 5;
+  };
 
   const handleChange = (field: keyof LeaseFormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    
+    // Clear error for this field when user starts typing
+    if (errors[field]) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
+  };
+
+  const handlePhoneChange = (field: keyof LeaseFormData, value: string) => {
+    const formatted = formatPhoneNumber(value);
+    handleChange(field, formatted);
+  };
+
+  const handleEmailChange = (field: keyof LeaseFormData, value: string) => {
+    handleChange(field, value);
+    if (value && !validateEmail(value)) {
+      setErrors(prev => ({ ...prev, [field]: 'Please enter a valid email address' }));
+    }
+  };
+
+  const handleStreetAddressChange = (field: keyof LeaseFormData, value: string) => {
+    handleChange(field, value);
+    if (value && !validateStreetAddress(value)) {
+      setErrors(prev => ({ ...prev, [field]: 'Please enter a valid street address (e.g., 123 Main St)' }));
+    }
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    
+    // Validate all required fields
+    const newErrors: Record<string, string> = {};
+    
+    if (formData.streetAddress && !validateStreetAddress(formData.streetAddress)) {
+      newErrors.streetAddress = 'Please enter a valid street address (e.g., 123 Main St)';
+    }
+    
+    if (formData.phoneNumber && !validatePhoneNumber(formData.phoneNumber)) {
+      newErrors.phoneNumber = 'Please enter a valid 10-digit phone number';
+    }
+    
+    if (formData.emailAddress && !validateEmail(formData.emailAddress)) {
+      newErrors.emailAddress = 'Please enter a valid email address';
+    }
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setSubmitMessage('Please fix the validation errors before submitting.');
+      return;
+    }
+    
     setIsSubmitting(true);
     setSubmitMessage('');
+    setErrors({});
 
     try {
       const response = await fetch('/api/submit-lease', {
@@ -82,9 +166,10 @@ export default function LeaseForm() {
             <label className="block text-sm font-medium mb-1">Tenant Name 2</label>
             <input
               type="text"
+              disabled
               value={formData.tenantName2 || ''}
               onChange={(e) => handleChange('tenantName2', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed"
             />
           </div>
           <div className="md:col-span-2">
@@ -92,18 +177,20 @@ export default function LeaseForm() {
             <input
               type="text"
               required
-              value={formData.streetAddress || ''}
-              onChange={(e) => handleChange('streetAddress', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              disabled
+              value={formData.streetAddress || '12821 NW Springville Rd'}
+              onChange={(e) => handleStreetAddressChange('streetAddress', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed"
             />
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Unit Name</label>
             <input
               type="text"
-              value={formData.unitName || ''}
+              disabled
+              value={formData.unitName || 'South Room'}
               onChange={(e) => handleChange('unitName', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed"
             />
           </div>
           <div>
@@ -111,9 +198,10 @@ export default function LeaseForm() {
             <input
               type="text"
               required
-              value={formData.city || ''}
+              disabled
+              value={formData.city || 'Portland'}
               onChange={(e) => handleChange('city', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed"
             />
           </div>
           <div>
@@ -121,9 +209,10 @@ export default function LeaseForm() {
             <input
               type="text"
               required
-              value={formData.state || ''}
+              disabled
+              value={formData.state || 'Oregon'}
               onChange={(e) => handleChange('state', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed"
             />
           </div>
           <div>
@@ -142,9 +231,21 @@ export default function LeaseForm() {
               type="tel"
               required
               value={formData.phoneNumber || ''}
-              onChange={(e) => handleChange('phoneNumber', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              onChange={(e) => handlePhoneChange('phoneNumber', e.target.value)}
+              onBlur={(e) => {
+                if (e.target.value && !validatePhoneNumber(e.target.value)) {
+                  setErrors(prev => ({ ...prev, phoneNumber: 'Please enter a valid 10-digit phone number' }));
+                }
+              }}
+              maxLength={14}
+              className={`w-full px-3 py-2 border rounded-md ${
+                errors.phoneNumber ? 'border-red-500' : 'border-gray-300'
+              }`}
+              placeholder="(123) 456-7890"
             />
+            {errors.phoneNumber && (
+              <p className="text-red-500 text-sm mt-1">{errors.phoneNumber}</p>
+            )}
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Email Address *</label>
@@ -152,9 +253,20 @@ export default function LeaseForm() {
               type="email"
               required
               value={formData.emailAddress || ''}
-              onChange={(e) => handleChange('emailAddress', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              onChange={(e) => handleEmailChange('emailAddress', e.target.value)}
+              onBlur={(e) => {
+                if (e.target.value && !validateEmail(e.target.value)) {
+                  setErrors(prev => ({ ...prev, emailAddress: 'Please enter a valid email address' }));
+                }
+              }}
+              className={`w-full px-3 py-2 border rounded-md ${
+                errors.emailAddress ? 'border-red-500' : 'border-gray-300'
+              }`}
+              placeholder="example@email.com"
             />
+            {errors.emailAddress && (
+              <p className="text-red-500 text-sm mt-1">{errors.emailAddress}</p>
+            )}
           </div>
         </div>
       </section>

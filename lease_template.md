@@ -48,6 +48,26 @@ Tenant(s) will be charged a Late Fee as follows (select ONLY one):
 One Charge per rental installment limited to 5% of Monthly Rent ($[LATE FEE AMOUNT]) for each five
 days of delinquency or portion thereof
 
+HOW LATE FEES WORK:
+
+• Late fees are triggered when rent is not received by 11:59 p.m. on the due date.
+
+• The late fee amount is calculated as 5% of the monthly rent amount (limited to this maximum
+  by Oregon law). For example, if monthly rent is $1,000, the late fee is $50 per period.
+
+• Late fees are charged for each five-day period (or portion thereof) that rent remains unpaid.
+  This means:
+  - Days 1-5 late: One late fee charge
+  - Days 6-10 late: Second late fee charge
+  - Days 11-15 late: Third late fee charge
+  - And so on for each additional five-day period
+
+• Only one late fee charge applies per rental installment, but additional charges accrue for
+  each subsequent five-day period until rent is paid in full.
+
+• Late fees are due immediately upon default and will be applied according to the payment
+  application order specified in this Agreement (see section 27).
+
 MOVE-IN ACCOUNTING - RENT & DEPOSITS
 
 Security Deposit $[SECURITY DEPOSIT AMOUNT]
