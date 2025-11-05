@@ -164,7 +164,7 @@ export default function LeaseForm() {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-4 sm:p-6 space-y-6 sm:space-y-8">
-      <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8 px-2">Oregon Fixed-Term Residential Lease Agreement</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8 px-2">Springville Farms Fixed-Term Residential Lease Agreement</h1>
 
       {/* Tenant Information */}
       <section className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
