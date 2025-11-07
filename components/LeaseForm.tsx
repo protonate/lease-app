@@ -25,7 +25,7 @@ export default function LeaseForm() {
     otherDepositAmount: '0',
     firstMonthRentAmount: '1000',
     totalDueAmount: '2258',
-    lateFeeAmount: '60',
+    lateFeeAmount: '50',
     utilityChargeAmount: '80',
     bankName: 'OnPoint',
     accountType: 'Savings',
@@ -76,6 +76,20 @@ export default function LeaseForm() {
     return hasNumber && hasLetters && address.trim().length >= 5;
   };
 
+  // Zip code mask function - formats as XXXXX or XXXXX-XXXX
+  const formatZipCode = (value: string): string => {
+    const zipCode = value.replace(/\D/g, '');
+    if (zipCode.length === 0) return '';
+    if (zipCode.length <= 5) return zipCode;
+    return `${zipCode.slice(0, 5)}-${zipCode.slice(5, 9)}`;
+  };
+
+  // Validate zip code format
+  const validateZipCode = (zip: string): boolean => {
+    const zipCode = zip.replace(/\D/g, '');
+    return zipCode.length === 5 || zipCode.length === 9;
+  };
+
   const handleChange = (field: keyof LeaseFormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     
@@ -108,24 +122,42 @@ export default function LeaseForm() {
     }
   };
 
+  const handleZipCodeChange = (field: keyof LeaseFormData, value: string) => {
+    const formatted = formatZipCode(value);
+    handleChange(field, formatted);
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    
+
     // Validate all required fields
     const newErrors: Record<string, string> = {};
-    
+
     if (formData.streetAddress && !validateStreetAddress(formData.streetAddress)) {
       newErrors.streetAddress = 'Please enter a valid street address (e.g., 123 Main St)';
     }
-    
+
     if (formData.phoneNumber && !validatePhoneNumber(formData.phoneNumber)) {
       newErrors.phoneNumber = 'Please enter a valid 10-digit phone number';
     }
-    
+
     if (formData.emailAddress && !validateEmail(formData.emailAddress)) {
       newErrors.emailAddress = 'Please enter a valid email address';
     }
-    
+
+    // Validate Emergency Contact 1 fields
+    if (formData.emergencyContact1Phone && !validatePhoneNumber(formData.emergencyContact1Phone)) {
+      newErrors.emergencyContact1Phone = 'Please enter a valid 10-digit phone number';
+    }
+
+    if (formData.emergencyContact1Email && !validateEmail(formData.emergencyContact1Email)) {
+      newErrors.emergencyContact1Email = 'Please enter a valid email address';
+    }
+
+    if (formData.emergencyContact1Zip && !validateZipCode(formData.emergencyContact1Zip)) {
+      newErrors.emergencyContact1Zip = 'Please enter a valid zip code';
+    }
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       setSubmitMessage('Please fix the validation errors before submitting.');
@@ -431,14 +463,14 @@ export default function LeaseForm() {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-1 text-gray-900">Late Fee Amount ($)</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Late Fee Amount</label>
             <input
               type="text"
               disabled
-              value={formData.lateFeeAmount || '60'}
-              onChange={(e) => handleChange('lateFeeAmount', e.target.value)}
+              value="$50 per 5 days late"
               className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
+            <p className="text-xs text-gray-600 mt-1">Charged for each 5-day period rent remains unpaid after due date</p>
           </div>
           <div>
             <label className="block text-sm font-semibold mb-1 text-gray-900">Utility Charge Amount ($)</label>
@@ -449,6 +481,7 @@ export default function LeaseForm() {
               onChange={(e) => handleChange('utilityChargeAmount', e.target.value)}
               className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
+            <p className="text-xs text-gray-600 mt-1">Monthly charge for electricity and internet. Due within 7 days of billing</p>
           </div>
         </div>
       </section>
@@ -553,9 +586,21 @@ export default function LeaseForm() {
                   type="text"
                   required
                   value={formData.emergencyContact1Zip || ''}
-                  onChange={(e) => handleChange('emergencyContact1Zip', e.target.value)}
-                  className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  onChange={(e) => handleZipCodeChange('emergencyContact1Zip', e.target.value)}
+                  onBlur={(e) => {
+                    if (e.target.value && !validateZipCode(e.target.value)) {
+                      setErrors(prev => ({ ...prev, emergencyContact1Zip: 'Please enter a valid zip code' }));
+                    }
+                  }}
+                  maxLength={10}
+                  className={`w-full px-3 py-2.5 sm:py-2 border-2 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                    errors.emergencyContact1Zip ? 'border-red-500' : 'border-gray-400'
+                  }`}
+                  placeholder="12345"
                 />
+                {errors.emergencyContact1Zip && (
+                  <p className="text-red-600 text-xs sm:text-sm mt-1 font-medium">{errors.emergencyContact1Zip}</p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-semibold mb-1 text-gray-900">Phone *</label>
@@ -563,9 +608,21 @@ export default function LeaseForm() {
                   type="tel"
                   required
                   value={formData.emergencyContact1Phone || ''}
-                  onChange={(e) => handleChange('emergencyContact1Phone', e.target.value)}
-                  className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  onChange={(e) => handlePhoneChange('emergencyContact1Phone', e.target.value)}
+                  onBlur={(e) => {
+                    if (e.target.value && !validatePhoneNumber(e.target.value)) {
+                      setErrors(prev => ({ ...prev, emergencyContact1Phone: 'Please enter a valid 10-digit phone number' }));
+                    }
+                  }}
+                  maxLength={14}
+                  className={`w-full px-3 py-2.5 sm:py-2 border-2 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                    errors.emergencyContact1Phone ? 'border-red-500' : 'border-gray-400'
+                  }`}
+                  placeholder="(123) 456-7890"
                 />
+                {errors.emergencyContact1Phone && (
+                  <p className="text-red-600 text-xs sm:text-sm mt-1 font-medium">{errors.emergencyContact1Phone}</p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-semibold mb-1 text-gray-900">Email *</label>
@@ -573,9 +630,20 @@ export default function LeaseForm() {
                   type="email"
                   required
                   value={formData.emergencyContact1Email || ''}
-                  onChange={(e) => handleChange('emergencyContact1Email', e.target.value)}
-                  className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  onChange={(e) => handleEmailChange('emergencyContact1Email', e.target.value)}
+                  onBlur={(e) => {
+                    if (e.target.value && !validateEmail(e.target.value)) {
+                      setErrors(prev => ({ ...prev, emergencyContact1Email: 'Please enter a valid email address' }));
+                    }
+                  }}
+                  className={`w-full px-3 py-2.5 sm:py-2 border-2 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                    errors.emergencyContact1Email ? 'border-red-500' : 'border-gray-400'
+                  }`}
+                  placeholder="example@email.com"
                 />
+                {errors.emergencyContact1Email && (
+                  <p className="text-red-600 text-xs sm:text-sm mt-1 font-medium">{errors.emergencyContact1Email}</p>
+                )}
               </div>
             </div>
           </div>
