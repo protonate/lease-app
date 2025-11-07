@@ -1,9 +1,15 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { LeaseFormData } from '@/types';
+import Cookies from 'js-cookie';
+
+const COOKIE_NAME = 'lease_form_data';
+const SUBMISSION_COOKIE = 'lease_submitted';
+const STORAGE_KEY = 'lease_form_data';
 
 export default function LeaseForm() {
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const [formData, setFormData] = useState<Partial<LeaseFormData>>({
     ownerName: 'Nathan Wolff',
     ownerPhone: '(917) 407-8610',
@@ -45,6 +51,34 @@ export default function LeaseForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Check for saved submission on mount
+  useEffect(() => {
+    const checkSavedSubmission = () => {
+      // Check cookie first
+      const submittedCookie = Cookies.get(SUBMISSION_COOKIE);
+      const savedDataCookie = Cookies.get(COOKIE_NAME);
+
+      // Also check localStorage for mobile persistence
+      const submittedStorage = typeof window !== 'undefined' ? localStorage.getItem(SUBMISSION_COOKIE) : null;
+      const savedDataStorage = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEY) : null;
+
+      const isSubmitted = submittedCookie === 'true' || submittedStorage === 'true';
+      const savedData = savedDataCookie || savedDataStorage;
+
+      if (isSubmitted && savedData) {
+        try {
+          const parsedData = JSON.parse(savedData);
+          setFormData(parsedData);
+          setShowConfirmation(true);
+        } catch (error) {
+          console.error('Error parsing saved form data:', error);
+        }
+      }
+    };
+
+    checkSavedSubmission();
+  }, []);
 
   // Phone number mask function - formats as (XXX) XXX-XXXX
   const formatPhoneNumber = (value: string): string => {
@@ -127,6 +161,34 @@ export default function LeaseForm() {
     handleChange(field, formatted);
   };
 
+  const saveFormData = (data: Partial<LeaseFormData>) => {
+    const dataString = JSON.stringify(data);
+
+    // Save to cookies (expires in 30 days)
+    Cookies.set(COOKIE_NAME, dataString, { expires: 30 });
+    Cookies.set(SUBMISSION_COOKIE, 'true', { expires: 30 });
+
+    // Also save to localStorage for mobile persistence
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY, dataString);
+      localStorage.setItem(SUBMISSION_COOKIE, 'true');
+    }
+  };
+
+  const clearFormData = () => {
+    // Clear cookies
+    Cookies.remove(COOKIE_NAME);
+    Cookies.remove(SUBMISSION_COOKIE);
+
+    // Clear localStorage
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(SUBMISSION_COOKIE);
+    }
+
+    setShowConfirmation(false);
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -180,9 +242,10 @@ export default function LeaseForm() {
       const result = await response.json();
 
       if (response.ok) {
-        setSubmitMessage('Lease application submitted successfully! The lease document has been sent via email.');
-        // Optionally reset form
-        // setFormData({});
+        // Save form data and show confirmation
+        saveFormData(formData);
+        setShowConfirmation(true);
+        setSubmitMessage('');
       } else {
         setSubmitMessage(`Error: ${result.error || 'Failed to submit lease application'}`);
       }
@@ -193,6 +256,308 @@ export default function LeaseForm() {
       setIsSubmitting(false);
     }
   };
+
+  // Confirmation page view
+  if (showConfirmation) {
+    return (
+      <div className="max-w-4xl mx-auto p-4 sm:p-6 space-y-6 sm:space-y-8">
+        <div className="bg-green-50 border-2 border-green-400 rounded-lg p-4 sm:p-6">
+          <h1 className="text-2xl sm:text-3xl font-bold text-center mb-2 text-green-900">Lease Application Submitted Successfully!</h1>
+          <p className="text-center text-gray-700">Your lease application has been received and saved. You can review the details below.</p>
+        </div>
+
+        <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">Application Details</h2>
+            <button
+              onClick={clearFormData}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-semibold text-sm sm:text-base"
+            >
+              Edit Application
+            </button>
+          </div>
+        </div>
+
+        {/* Tenant Information */}
+        <section className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+          <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-900">Tenant Information</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Tenant Name 1</p>
+              <p className="text-base text-gray-900">{formData.tenantName1 || 'N/A'}</p>
+            </div>
+            {formData.tenantName2 && (
+              <div>
+                <p className="text-sm font-semibold text-gray-600">Tenant Name 2</p>
+                <p className="text-base text-gray-900">{formData.tenantName2}</p>
+              </div>
+            )}
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Street Address</p>
+              <p className="text-base text-gray-900">{formData.streetAddress || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Unit Name</p>
+              <p className="text-base text-gray-900">{formData.unitName || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">City</p>
+              <p className="text-base text-gray-900">{formData.city || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">State</p>
+              <p className="text-base text-gray-900">{formData.state || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Zip Code</p>
+              <p className="text-base text-gray-900">{formData.zipCode || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Phone Number</p>
+              <p className="text-base text-gray-900">{formData.phoneNumber || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Email Address</p>
+              <p className="text-base text-gray-900">{formData.emailAddress || 'N/A'}</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Lease Term */}
+        <section className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+          <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-900">Fixed-Term Tenancy</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Start Date</p>
+              <p className="text-base text-gray-900">{formData.startDate || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">End Date</p>
+              <p className="text-base text-gray-900">{formData.endDate || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Proration End Date</p>
+              <p className="text-base text-gray-900">{formData.prorationEndDate || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Rent Due Day</p>
+              <p className="text-base text-gray-900">{formData.rentDueDay || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Exclusive Space</p>
+              <p className="text-base text-gray-900">{formData.exclusiveSpace || 'N/A'}</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Rent and Financial Information */}
+        <section className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+          <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-900">Rent & Financial Information</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Monthly Rent Amount</p>
+              <p className="text-base text-gray-900">${formData.monthlyRentAmount || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Prorated Rent Amount</p>
+              <p className="text-base text-gray-900">${formData.proratedRentAmount || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Security Deposit</p>
+              <p className="text-base text-gray-900">${formData.securityDepositAmount || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Pet Deposit</p>
+              <p className="text-base text-gray-900">${formData.petDepositAmount || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Other Deposits</p>
+              <p className="text-base text-gray-900">${formData.otherDepositAmount || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">1st Full Month's Rent</p>
+              <p className="text-base text-gray-900">${formData.firstMonthRentAmount || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Total Due</p>
+              <p className="text-base text-gray-900 font-bold">${formData.totalDueAmount || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Late Fee</p>
+              <p className="text-base text-gray-900">$50 per 5 days late</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Utility Charge Amount</p>
+              <p className="text-base text-gray-900">${formData.utilityChargeAmount || 'N/A'}</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Bank Information */}
+        <section className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+          <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-900">Bank Information</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Bank Name</p>
+              <p className="text-base text-gray-900">{formData.bankName || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Account Type</p>
+              <p className="text-base text-gray-900">{formData.accountType || 'N/A'}</p>
+            </div>
+            <div className="md:col-span-2">
+              <p className="text-sm font-semibold text-gray-600">Bank Address</p>
+              <p className="text-base text-gray-900">{formData.bankAddress || 'N/A'}</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Emergency Contacts */}
+        <section className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+          <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-900">Emergency Contacts</h2>
+          <div className="space-y-4 sm:space-y-6">
+            <div>
+              <h3 className="text-base sm:text-lg font-semibold mb-3 text-gray-900">Emergency Contact 1</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                <div>
+                  <p className="text-sm font-semibold text-gray-600">Name</p>
+                  <p className="text-base text-gray-900">{formData.emergencyContact1Name || 'N/A'}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-gray-600">Relationship</p>
+                  <p className="text-base text-gray-900">{formData.relationship1 || 'N/A'}</p>
+                </div>
+                <div className="md:col-span-2">
+                  <p className="text-sm font-semibold text-gray-600">Address</p>
+                  <p className="text-base text-gray-900">{formData.emergencyContact1Address || 'N/A'}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-gray-600">City</p>
+                  <p className="text-base text-gray-900">{formData.emergencyContact1City || 'N/A'}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-gray-600">State</p>
+                  <p className="text-base text-gray-900">{formData.emergencyContact1State || 'N/A'}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-gray-600">Zip Code</p>
+                  <p className="text-base text-gray-900">{formData.emergencyContact1Zip || 'N/A'}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-gray-600">Phone</p>
+                  <p className="text-base text-gray-900">{formData.emergencyContact1Phone || 'N/A'}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-gray-600">Email</p>
+                  <p className="text-base text-gray-900">{formData.emergencyContact1Email || 'N/A'}</p>
+                </div>
+              </div>
+            </div>
+
+            {formData.emergencyContact2Name && (
+              <div>
+                <h3 className="text-base sm:text-lg font-semibold mb-3 text-gray-900">Emergency Contact 2</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                  <div>
+                    <p className="text-sm font-semibold text-gray-600">Name</p>
+                    <p className="text-base text-gray-900">{formData.emergencyContact2Name || 'N/A'}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-600">Relationship</p>
+                    <p className="text-base text-gray-900">{formData.relationship2 || 'N/A'}</p>
+                  </div>
+                  <div className="md:col-span-2">
+                    <p className="text-sm font-semibold text-gray-600">Address</p>
+                    <p className="text-base text-gray-900">{formData.emergencyContact2Address || 'N/A'}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-600">City</p>
+                    <p className="text-base text-gray-900">{formData.emergencyContact2City || 'N/A'}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-600">State</p>
+                    <p className="text-base text-gray-900">{formData.emergencyContact2State || 'N/A'}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-600">Zip Code</p>
+                    <p className="text-base text-gray-900">{formData.emergencyContact2Zip || 'N/A'}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-600">Phone</p>
+                    <p className="text-base text-gray-900">{formData.emergencyContact2Phone || 'N/A'}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-600">Email</p>
+                    <p className="text-base text-gray-900">{formData.emergencyContact2Email || 'N/A'}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* Vehicle Information */}
+        <section className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+          <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-900">Parking / Vehicles</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Number of Vehicles Allowed</p>
+              <p className="text-base text-gray-900">{formData.numberOfVehicles || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Vehicle Make</p>
+              <p className="text-base text-gray-900">{formData.vehicleMake || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Vehicle Model</p>
+              <p className="text-base text-gray-900">{formData.vehicleModel || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Vehicle Year</p>
+              <p className="text-base text-gray-900">{formData.vehicleYear || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Vehicle Color</p>
+              <p className="text-base text-gray-900">{formData.vehicleColor || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">License Plate Number</p>
+              <p className="text-base text-gray-900">{formData.licensePlateNumber || 'N/A'}</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Additional Information */}
+        <section className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+          <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-900">Additional Information</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Specific Entrance Instructions</p>
+              <p className="text-base text-gray-900">{formData.specificEntranceInstructions || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Tenant Initials</p>
+              <p className="text-base text-gray-900">{formData.tenantInitials || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Pets Allowed</p>
+              <p className="text-base text-gray-900">{formData.petsAllowed || 'N/A'}</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Edit button at bottom */}
+        <div className="flex justify-center px-2">
+          <button
+            onClick={clearFormData}
+            className="w-full sm:w-auto px-8 py-3.5 sm:py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-base sm:text-lg font-semibold min-h-[44px] touch-manipulation"
+          >
+            Edit Application
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-4 sm:p-6 space-y-6 sm:space-y-8" suppressHydrationWarning>
