@@ -1,4 +1,10 @@
-import LeaseForm from '@/components/LeaseForm';
+'use client';
+
+import dynamic from 'next/dynamic';
+
+const LeaseForm = dynamic(() => import('@/components/LeaseForm'), {
+  ssr: false,
+});
 
 export default function Home() {
   return (

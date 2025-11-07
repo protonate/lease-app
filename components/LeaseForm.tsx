@@ -164,88 +164,88 @@ export default function LeaseForm() {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-4 sm:p-6 space-y-6 sm:space-y-8">
-      <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8 px-2">Springville Farms Fixed-Term Residential Lease Agreement</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8 px-2 text-gray-900">Springville Farms Fixed-Term Residential Lease Agreement</h1>
 
       {/* Tenant Information */}
       <section className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
-        <h2 className="text-xl sm:text-2xl font-semibold mb-4">Tenant Information</h2>
+        <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-900">Tenant Information</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Tenant Name 1 *</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Tenant Name 1 *</label>
             <input
               type="text"
               required
               value={formData.tenantName1 || ''}
               onChange={(e) => handleChange('tenantName1', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Tenant Name 2</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Tenant Name 2</label>
             <input
               type="text"
               disabled
               value={formData.tenantName2 || ''}
               onChange={(e) => handleChange('tenantName2', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium mb-1">Street Address *</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Street Address *</label>
             <input
               type="text"
               required
               disabled
               value={formData.streetAddress || '12821 NW Springville Rd'}
               onChange={(e) => handleStreetAddressChange('streetAddress', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Unit Name</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Unit Name</label>
             <input
               type="text"
               disabled
               value={formData.unitName || 'South Room'}
               onChange={(e) => handleChange('unitName', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">City *</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">City *</label>
             <input
               type="text"
               required
               disabled
               value={formData.city || 'Portland'}
               onChange={(e) => handleChange('city', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">State *</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">State *</label>
             <input
               type="text"
               required
               disabled
               value={formData.state || 'Oregon'}
               onChange={(e) => handleChange('state', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Zip Code *</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Zip Code *</label>
             <input
               type="text"
               required
               disabled
               value={formData.zipCode || '97229'}
               onChange={(e) => handleChange('zipCode', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Phone Number *</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Phone Number *</label>
             <input
               type="tel"
               required
@@ -257,17 +257,17 @@ export default function LeaseForm() {
                 }
               }}
               maxLength={14}
-              className={`w-full px-3 py-2.5 sm:py-2 border rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                errors.phoneNumber ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-3 py-2.5 sm:py-2 border-2 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                errors.phoneNumber ? 'border-red-500' : 'border-gray-400'
               }`}
               placeholder="(123) 456-7890"
             />
             {errors.phoneNumber && (
-              <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.phoneNumber}</p>
+              <p className="text-red-600 text-xs sm:text-sm mt-1 font-medium">{errors.phoneNumber}</p>
             )}
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Email Address *</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Email Address *</label>
             <input
               type="email"
               required
@@ -278,13 +278,13 @@ export default function LeaseForm() {
                   setErrors(prev => ({ ...prev, emailAddress: 'Please enter a valid email address' }));
                 }
               }}
-              className={`w-full px-3 py-2.5 sm:py-2 border rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                errors.emailAddress ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-3 py-2.5 sm:py-2 border-2 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                errors.emailAddress ? 'border-red-500' : 'border-gray-400'
               }`}
               placeholder="example@email.com"
             />
             {errors.emailAddress && (
-              <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.emailAddress}</p>
+              <p className="text-red-600 text-xs sm:text-sm mt-1 font-medium">{errors.emailAddress}</p>
             )}
           </div>
         </div>
@@ -292,10 +292,10 @@ export default function LeaseForm() {
 
       {/* Lease Term */}
       <section className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
-        <h2 className="text-xl sm:text-2xl font-semibold mb-4">Fixed-Term Tenancy</h2>
+        <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-900">Fixed-Term Tenancy</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Start Date * (MM/DD/YYYY)</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Start Date * (MM/DD/YYYY)</label>
             <input
               type="text"
               required
@@ -303,11 +303,11 @@ export default function LeaseForm() {
               placeholder="MM/DD/YYYY"
               value={formData.startDate || '10/24/2025'}
               onChange={(e) => handleChange('startDate', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">End Date * (MM/DD/YYYY)</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">End Date * (MM/DD/YYYY)</label>
             <input
               type="text"
               required
@@ -315,38 +315,38 @@ export default function LeaseForm() {
               placeholder="MM/DD/YYYY"
               value={formData.endDate || '2/28/2025'}
               onChange={(e) => handleChange('endDate', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Proration End Date (MM/DD/YYYY)</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Proration End Date (MM/DD/YYYY)</label>
             <input
               type="text"
               disabled
               placeholder="MM/DD/YYYY"
               value={formData.prorationEndDate || '10/31/2025'}
               onChange={(e) => handleChange('prorationEndDate', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Rent Due Day</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Rent Due Day</label>
             <input
               type="text"
               disabled
               value={formData.rentDueDay || '1st of the month'}
               onChange={(e) => handleChange('rentDueDay', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Exclusive Space</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Exclusive Space</label>
             <input
               type="text"
               disabled
               value={formData.exclusiveSpace || 'South Room'}
               onChange={(e) => handleChange('exclusiveSpace', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
         </div>
@@ -354,10 +354,10 @@ export default function LeaseForm() {
 
       {/* Rent and Financial Information */}
       <section className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
-        <h2 className="text-xl sm:text-2xl font-semibold mb-4">Rent & Financial Information</h2>
+        <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-900">Rent & Financial Information</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Monthly Rent Amount * ($)</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Monthly Rent Amount * ($)</label>
             <input
               type="text"
               required
@@ -365,89 +365,89 @@ export default function LeaseForm() {
               placeholder="1200"
               value={formData.monthlyRentAmount || '1000'}
               onChange={(e) => handleChange('monthlyRentAmount', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Prorated Rent Amount ($)</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Prorated Rent Amount ($)</label>
             <input
               type="text"
               disabled
               placeholder="464.52"
               value={formData.proratedRentAmount || '258'}
               onChange={(e) => handleChange('proratedRentAmount', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Security Deposit ($)</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Security Deposit ($)</label>
             <input
               type="text"
               disabled
               placeholder="1200"
               value={formData.securityDepositAmount || '1000'}
               onChange={(e) => handleChange('securityDepositAmount', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Pet Deposit Amount ($)</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Pet Deposit Amount ($)</label>
             <input
               type="text"
               disabled
               value={formData.petDepositAmount || '0'}
               onChange={(e) => handleChange('petDepositAmount', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Other Deposits ($)</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Other Deposits ($)</label>
             <input
               type="text"
               disabled
               value={formData.otherDepositAmount || '0'}
               onChange={(e) => handleChange('otherDepositAmount', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">1st Full Month's Rent ($)</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">1st Full Month's Rent ($)</label>
             <input
               type="text"
               disabled
               value={formData.firstMonthRentAmount || '1000'}
               onChange={(e) => handleChange('firstMonthRentAmount', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Total Due ($)</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Total Due ($)</label>
             <input
               type="text"
               disabled
               value={formData.totalDueAmount || '2258'}
               onChange={(e) => handleChange('totalDueAmount', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Late Fee Amount ($)</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Late Fee Amount ($)</label>
             <input
               type="text"
               disabled
               value={formData.lateFeeAmount || '60'}
               onChange={(e) => handleChange('lateFeeAmount', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Utility Charge Amount ($)</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Utility Charge Amount ($)</label>
             <input
               type="text"
               disabled
               value={formData.utilityChargeAmount || '80'}
               onChange={(e) => handleChange('utilityChargeAmount', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
         </div>
@@ -455,36 +455,36 @@ export default function LeaseForm() {
 
       {/* Bank Information */}
       <section className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
-        <h2 className="text-xl sm:text-2xl font-semibold mb-4">Bank Information</h2>
+        <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-900">Bank Information</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Bank Name</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Bank Name</label>
             <input
               type="text"
               disabled
               value={formData.bankName || 'OnPoint'}
               onChange={(e) => handleChange('bankName', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Account Type</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Account Type</label>
             <input
               type="text"
               disabled
               value={formData.accountType || 'Savings'}
               onChange={(e) => handleChange('accountType', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium mb-1">Bank Address</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Bank Address</label>
             <input
               type="text"
               disabled
               value={formData.bankAddress || '2755 SW Cedar Hills Blvd #100, Beaverton, OR 97005'}
               onChange={(e) => handleChange('bankAddress', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
         </div>
@@ -492,175 +492,175 @@ export default function LeaseForm() {
 
       {/* Emergency Contacts */}
       <section className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
-        <h2 className="text-xl sm:text-2xl font-semibold mb-4">Emergency Contacts</h2>
+        <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-900">Emergency Contacts</h2>
         <div className="space-y-4 sm:space-y-6">
           <div>
-            <h3 className="text-base sm:text-lg font-medium mb-3">Emergency Contact 1</h3>
+            <h3 className="text-base sm:text-lg font-semibold mb-3 text-gray-900">Emergency Contact 1</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Name *</label>
+                <label className="block text-sm font-semibold mb-1 text-gray-900">Name *</label>
                 <input
                   type="text"
                   required
                   value={formData.emergencyContact1Name || ''}
                   onChange={(e) => handleChange('emergencyContact1Name', e.target.value)}
-                  className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Relationship *</label>
+                <label className="block text-sm font-semibold mb-1 text-gray-900">Relationship *</label>
                 <input
                   type="text"
                   required
                   value={formData.relationship1 || ''}
                   onChange={(e) => handleChange('relationship1', e.target.value)}
-                  className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium mb-1">Address *</label>
+                <label className="block text-sm font-semibold mb-1 text-gray-900">Address *</label>
                 <input
                   type="text"
                   required
                   value={formData.emergencyContact1Address || ''}
                   onChange={(e) => handleChange('emergencyContact1Address', e.target.value)}
-                  className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">City *</label>
+                <label className="block text-sm font-semibold mb-1 text-gray-900">City *</label>
                 <input
                   type="text"
                   required
                   value={formData.emergencyContact1City || ''}
                   onChange={(e) => handleChange('emergencyContact1City', e.target.value)}
-                  className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">State *</label>
+                <label className="block text-sm font-semibold mb-1 text-gray-900">State *</label>
                 <input
                   type="text"
                   required
                   value={formData.emergencyContact1State || ''}
                   onChange={(e) => handleChange('emergencyContact1State', e.target.value)}
-                  className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Zip Code *</label>
+                <label className="block text-sm font-semibold mb-1 text-gray-900">Zip Code *</label>
                 <input
                   type="text"
                   required
                   value={formData.emergencyContact1Zip || ''}
                   onChange={(e) => handleChange('emergencyContact1Zip', e.target.value)}
-                  className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Phone *</label>
+                <label className="block text-sm font-semibold mb-1 text-gray-900">Phone *</label>
                 <input
                   type="tel"
                   required
                   value={formData.emergencyContact1Phone || ''}
                   onChange={(e) => handleChange('emergencyContact1Phone', e.target.value)}
-                  className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Email *</label>
+                <label className="block text-sm font-semibold mb-1 text-gray-900">Email *</label>
                 <input
                   type="email"
                   required
                   value={formData.emergencyContact1Email || ''}
                   onChange={(e) => handleChange('emergencyContact1Email', e.target.value)}
-                  className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
             </div>
           </div>
 
           <div>
-            <h3 className="text-base sm:text-lg font-medium mb-3">Emergency Contact 2</h3>
+            <h3 className="text-base sm:text-lg font-semibold mb-3 text-gray-900">Emergency Contact 2</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Name</label>
+                <label className="block text-sm font-semibold mb-1 text-gray-900">Name</label>
                 <input
                   type="text"
                   disabled
                   value={formData.emergencyContact2Name || ''}
                   onChange={(e) => handleChange('emergencyContact2Name', e.target.value)}
-                  className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+                  className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Relationship</label>
+                <label className="block text-sm font-semibold mb-1 text-gray-900">Relationship</label>
                 <input
                   type="text"
                   disabled
                   value={formData.relationship2 || ''}
                   onChange={(e) => handleChange('relationship2', e.target.value)}
-                  className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+                  className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
                 />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium mb-1">Address</label>
+                <label className="block text-sm font-semibold mb-1 text-gray-900">Address</label>
                 <input
                   type="text"
                   disabled
                   value={formData.emergencyContact2Address || ''}
                   onChange={(e) => handleChange('emergencyContact2Address', e.target.value)}
-                  className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+                  className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">City</label>
+                <label className="block text-sm font-semibold mb-1 text-gray-900">City</label>
                 <input
                   type="text"
                   disabled
                   value={formData.emergencyContact2City || ''}
                   onChange={(e) => handleChange('emergencyContact2City', e.target.value)}
-                  className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+                  className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">State</label>
+                <label className="block text-sm font-semibold mb-1 text-gray-900">State</label>
                 <input
                   type="text"
                   disabled
                   value={formData.emergencyContact2State || ''}
                   onChange={(e) => handleChange('emergencyContact2State', e.target.value)}
-                  className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+                  className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Zip Code</label>
+                <label className="block text-sm font-semibold mb-1 text-gray-900">Zip Code</label>
                 <input
                   type="text"
                   disabled
                   value={formData.emergencyContact2Zip || ''}
                   onChange={(e) => handleChange('emergencyContact2Zip', e.target.value)}
-                  className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+                  className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Phone</label>
+                <label className="block text-sm font-semibold mb-1 text-gray-900">Phone</label>
                 <input
                   type="tel"
                   disabled
                   value={formData.emergencyContact2Phone || ''}
                   onChange={(e) => handleChange('emergencyContact2Phone', e.target.value)}
-                  className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+                  className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Email</label>
+                <label className="block text-sm font-semibold mb-1 text-gray-900">Email</label>
                 <input
                   type="email"
                   disabled
                   value={formData.emergencyContact2Email || ''}
                   onChange={(e) => handleChange('emergencyContact2Email', e.target.value)}
-                  className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+                  className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
                 />
               </div>
             </div>
@@ -670,66 +670,66 @@ export default function LeaseForm() {
 
       {/* Vehicle Information */}
       <section className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
-        <h2 className="text-xl sm:text-2xl font-semibold mb-4">Parking / Vehicles</h2>
+        <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-900">Parking / Vehicles</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Number of Vehicles Allowed</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Number of Vehicles Allowed</label>
             <input
               type="text"
               disabled
               value={formData.numberOfVehicles || '1'}
               onChange={(e) => handleChange('numberOfVehicles', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Vehicle Make *</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Vehicle Make *</label>
             <input
               type="text"
               required
               value={formData.vehicleMake || ''}
               onChange={(e) => handleChange('vehicleMake', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Vehicle Model *</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Vehicle Model *</label>
             <input
               type="text"
               required
               value={formData.vehicleModel || ''}
               onChange={(e) => handleChange('vehicleModel', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Vehicle Year *</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Vehicle Year *</label>
             <input
               type="text"
               required
               value={formData.vehicleYear || ''}
               onChange={(e) => handleChange('vehicleYear', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Vehicle Color *</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Vehicle Color *</label>
             <input
               type="text"
               required
               value={formData.vehicleColor || ''}
               onChange={(e) => handleChange('vehicleColor', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">License Plate Number *</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">License Plate Number *</label>
             <input
               type="text"
               required
               value={formData.licensePlateNumber || ''}
               onChange={(e) => handleChange('licensePlateNumber', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
         </div>
@@ -737,35 +737,35 @@ export default function LeaseForm() {
 
       {/* Additional Information */}
       <section className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
-        <h2 className="text-xl sm:text-2xl font-semibold mb-4">Additional Information</h2>
+        <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-gray-900">Additional Information</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Specific Entrance Instructions</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Specific Entrance Instructions</label>
             <input
               type="text"
               disabled
               value={formData.specificEntranceInstructions || 'door code provided'}
               onChange={(e) => handleChange('specificEntranceInstructions', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Tenant Initials *</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Tenant Initials *</label>
             <input
               type="text"
               required
               value={formData.tenantInitials || ''}
               onChange={(e) => handleChange('tenantInitials', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Pets Allowed</label>
+            <label className="block text-sm font-semibold mb-1 text-gray-900">Pets Allowed</label>
             <select
               disabled
               value={formData.petsAllowed || 'Yes'}
               onChange={(e) => handleChange('petsAllowed', e.target.value)}
-              className="w-full px-3 py-2.5 sm:py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-base"
+              className="w-full px-3 py-2.5 sm:py-2 border-2 border-gray-400 rounded-md bg-gray-200 cursor-not-allowed text-base text-gray-600"
             >
               <option value="Yes">Yes</option>
               <option value="No">No</option>
@@ -786,7 +786,7 @@ export default function LeaseForm() {
       </div>
 
       {submitMessage && (
-        <div className={`p-4 rounded-md text-sm sm:text-base ${submitMessage.includes('Error') ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
+        <div className={`p-4 rounded-md text-sm sm:text-base font-medium ${submitMessage.includes('Error') ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
           {submitMessage}
         </div>
       )}
